@@ -53,7 +53,7 @@ Một vài chỉ mục để thử
 
 ## Không chỉ mục
 
-Tốt tồi, bây giờ tôi đang phán đoán một chút ở đây. Tôi có một khóa chính là `seq`, nhưng nó ko có ích trong câu truy vấn chúng ta đang học.
+Tốt rồi, bây giờ tôi đang phán đoán một chút ở đây. Tôi có một khóa chính là `seq`, nhưng nó ko có ích trong câu truy vấn chúng ta đang học.
     
     
     mysql>  SHOW CREATE TABLE Presidents G
