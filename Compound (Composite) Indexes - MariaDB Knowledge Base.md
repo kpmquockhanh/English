@@ -12,7 +12,7 @@ Nó cũng giải thích [EXPLAIN][1] (to some extent).
 
 ## Câu truy vấn để bàn luận
 
-Câu hỏi là "Khi nào Andrew Johnson là tổng thống của nước Mỹ?".
+Câu hỏi là "Andrew Johnson là tổng thống của nước Mỹ khi nào?".
 
 Bảng `tổng thống` có sẵn như sau:
     
@@ -31,7 +31,7 @@ Bảng `tổng thống` có sẵn như sau:
     ...
     
 
-("Andrew Johnson" đã được chọn cho bài học này vì sự lặp lại)
+("Andrew Johnson" đã được chọn cho bài học này vì có sự lặp lại)
 
 (Những)Chỉ mục nào sẽ là tốt nhất cho câu hỏi đó ? Cụ thể cái nào sẽ tốt nhất cho
     
@@ -53,7 +53,7 @@ Một vài chỉ mục để thử
 
 ## Không chỉ mục
 
-Tốt rồi, bây giờ tôi đang phán đoán một chút ở đây. Tôi có một khóa chính là `seq`, nhưng nó ko có ích trong câu truy vấn chúng ta đang học.
+Tốt rồi, bây giờ tôi đang giả điịnh một chút ở đây. Tôi có một khóa chính là `seq`, nhưng nó ko có ích trong câu truy vấn chúng ta đang học.
     
     
     mysql>  SHOW CREATE TABLE Presidents G
@@ -95,13 +95,13 @@ Tốt rồi, bây giờ tôi đang phán đoán một chút ở đây. Tôi có 
 * Dữ liệu và khóa chính được nhóm lại cùng nhau trong BTree. 
 * Tra cứu BTree khá nhanh và hiệu quả. Đối với một bảng triệu hàng có thể có 3 mức BTree và hai mức cao nhất có thể được lưu trong bộ nhớ cache. 
 * Mỗi chỉ mục phụ trong một BTree khác nhau, với khóa chính PRIMARY KEY ở lá. 
-* Tìm nạp các mục 'liên tiếp' (theo chỉ mục) từ BTree rất hiệu quả vì chúng được lưu trữ liên tục. 
+* Tìm nạp các mục 'liên tiếp' (theo chỉ mục) từ BTree rất hiệu quả vì chúng được lưu trữ liên tiếp. 
 * Vì mục đích đơn giản, chúng ta có thể đếm từng tra cứu BTree dưới dạng 1 đơn vị công việc, và bỏ qua các lần quét cho các mục liên tiếp. Điều này xấp xỉ số lần truy cập đĩa cho một bảng lớn trong một busy system.
 Với MyISAM, khóa chính không được lưu cùng dữ liệu, vì vậy hãy nghĩ về nó như một chìa khóa phụ (quá đơn giản).
 
 ## Chỉ mục(first_name), Chỉ mục(last_name)
 
-Người mới làm quen, một khi anh ấy biết về lập chỉ mục, quyết định lập chỉ mục nhiều cột, tất cả trong một lần. Nhưng...
+Người mới làm quen, một khi anh ấy biết về lập chỉ mục, quyết định lập chỉ mục từng cột một. Nhưng...
 
 MySQL hiếm khi sử dụng nhiều hơn một chỉ mục tại một thời điểm trong một truy vấn. Vì vậy, nó sẽ phân tích các chỉ mục có thể.
 
@@ -126,7 +126,7 @@ MySQL hiếm khi sử dụng nhiều hơn một chỉ mục tại một thời �
 
 ## "Index Merge Intersect"
 
-OK, vậy bạn có thể thực sự thông minh và quyết định rằng MySQL nên đủ thông minh để sử dụng cả hai chỉ mục tên để nhận câu trả lời. Nó được gọi là  "Intersect". 1\. Sử dụng Chỉ mục(last_name), tìm 2 chỉ mục nhập vào với last_name = 'Johnson'; get (7, 17) 2\. Sử dụng Chỉ mục(first_name), tìm hai chỉ mục nhập vào với first_name = 'Andrew'; get (17, 36) 3\. "And" hai danh sách với nhau (7,17) & (17,36) = (17) 4\. Tiếp cận dữ liệu sử dụng seq = (17) để lấy hàng cho Andrew Johnson. 5\. Đưa kết quả (1865-1869).
+OK, vậy bạn có thể thực sự thông minh và quyết định rằng MySQL nên đủ thông minh để sử dụng cả hai chỉ mục tên để đưa ra câu trả lời. Nó được gọi là  "Intersect". 1\. Sử dụng Chỉ mục(last_name), tìm 2 chỉ mục nhập vào với last_name = 'Johnson'; get (7, 17) 2\. Sử dụng Chỉ mục(first_name), tìm hai chỉ mục nhập vào với first_name = 'Andrew'; get (17, 36) 3\. "And" hai danh sách với nhau (7,17) & (17,36) = (17) 4\. Tiếp cận dữ liệu sử dụng seq = (17) để lấy hàng cho Andrew Johnson. 5\. Đưa kết quả (1865-1869).
     
     
                id: 1
