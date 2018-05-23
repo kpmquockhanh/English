@@ -4,16 +4,16 @@ Trong th ờibuổi hiện đại ngày nay, phần mềm thường được cun
 Ứng dụng theo mười hai yếu tố là phương pháp để xây dựng các ứng dụng phần mềm như một dịch vụ.
 
 - Sử dụng các định dạng khai báo cho tự động hóa cài đặt, để giảm thiểu thời gian và chi phí cho các nhà phát triển mới tham gia dự án;
-- Có các quy ước rõ ràng với hệ điều hành bên dưới, cung cấp khả năng di chuyển tối đa giữa các môi trường thực thi.
+- Có các quy ước rõ ràng với hệ điều hành cơ bản (nền tảng), cung cấp tối đa tính di động giữa các môi trường thực thi.
 - Thích hợp cho việc triển khai trên nền tảng đám mây hiện đại, giảm thiểu yêu cầu cho các máy chủ và quản trị hệ thống.
-- Giảm thiểu tối đa sự khác biệt giữa giai đoạn phát triển và thực thi, tạo điều kiện cho việc phát triển liên tục một cách nhanh nhất.
-- Và có thể mở rộng quy mô mà không có thay đổi đáng kể về công cụ, kiến ​​trúc hoặc thực tiễn phát triển.
+- Giảm thiểu tối đa sự khác biệt giữa giai đoạn phát triển và thực thi, tạo điều kiện cho việc phát triển liên tục một cách linh hoạt nhất.
+- Và có thể mở rộng quy mô mà không có thay đổi đáng kể về công cụ, kiến trúc hoặc thực tiễn phát triển.
 
 Phương pháp 12 yếu tố có thể được áp dụng cho các ứng dụng được viết bằng bất kỳ ngôn ngữ lập trình nào và sử dụng bất kỳ kết hợp dịch vụ sao lưu nào (cơ sở dữ liệu, hàng đợi, bộ nhớ cache, v.v.).
 
 ### Cơ sở
 Những người đóng góp cho tài liệu này đã trực tiếp tham gia vào việc phát triển và triển khai hàng trăm ứng dụng,
-và gián tiếp chứng kiến ​​sự phát triển, vận hành và mở rộng hàng trăm nghìn ứng dụng thông qua công việc của chúng tôi trên nền tảng Heroku.
+và gián tiếp chứng kiến sự phát triển, vận hành và mở rộng hàng trăm nghìn ứng dụng thông qua công việc của chúng tôi trên nền tảng Heroku.
 
 Tài liệu này tổng hợp tất cả các kinh nghiệm và quan sát của chúng tôi trên rất nhiều ứng dụng dạng "phần mềm như một dịch vụ". Nó bao gồm tam giác 3 yếu tố quan trọng mà bất kỳ quy trình phát triển ứng dụng l
 ý tưởng nào cũng cần có, bao gồm việc tập trung vào sự phát triển linh động của một ứng dụng theo thời gian, tính linh động trong việc cộng tác giữa các nhà phát triển trên nền code của ứng dụng, và tránh các chi phí phát sinh tạo ra bởi sự hao mòn của phần mềm.
@@ -34,11 +34,11 @@ sẻ chung một commit gốc(trong một hệ thống kiểm soát sửa đổi
 
 Luôn luôn có sự tương quan một-một giữa codebase và ứng dụng:
 - Nếu có nhiều codebases, nó không phải là một ứng dụng - đó là một hệ thống phân tán. Mỗi thành phần trong một hệ thống phân tán là một ứng dụng và mỗi thành phần có thể tuân thủ riêng với mười hai chuẩn.
-- Nhiều ứng dụng chia sẻ cùng một mã là vi phạm mười hai chuẩn. Giải pháp ở đây là quản lý các đoạn code được dùng chung thành các thư viện mà ta có thể sử dụng thông qua dependency manager.
+- Nhiều ứng dụng chia sẻ cùng một code là vi phạm mười hai chuẩn. Giải pháp ở đây là quản lý các đoạn code được dùng chung thành các thư viện mà ta có thể sử dụng thông qua dependency manager.
 
 Chỉ có một codebase cho mỗi ứng dụng, nhưng sẽ có nhiều triển khai ứng dụng.
-Một triển khai sẽ chạy phiên bản của ứng dụng. Điều này thường là một phía của production, với một hoặc nhiều phía staging. 
-Thêm vào đó, mỗi người phát triển có một bản sao của ứng dụng đang chạy trên môi trường developer nội bộ của họ, mỗi số chúng cũng được coi như một triển khai.
+Một triển khai sẽ chạy phiên bản của ứng dụng. Đây thường là một trang web sản xuất và một hoặc nhiều trang web dàn dựng. 
+Thêm vào đó, mỗi người phát triển  đều có một bản sao của ứng dụng đang chạy trên môi trường developer cục bộ của họ, mỗi số chúng cũng được coi như một triển khai.
 
 Các codebase là như nhau trên tất cả các triển khai, mặc dù các phiên bản khác nhau có thể hoạt động trong mỗi triển khai.
 Ví dụ, một nhà phát triển có vài commit chưa triển khai đến staging, staging có vài commit chưa được triển khai tới production. Nhưng chúng đều dùng chung nền codebase, điều này làm chúng được phân biệt là các triển khai khác nhau của cùng một ứng dụng.
@@ -71,10 +71,10 @@ Lưu ý rằng định nghĩa `cấu hình` không bao gồm các cấu hình n�
 
 Một cách tiếp cận khác với cấu hình là sử dụng các file cấu hình không được kiểm soát trong kiểm soát thay đổi, như là `config/database.yml` trong Rails. Đây là 1 cải thiện lớn so với việc sử dụng các hằng số được kiểm soát trong code repo, nhưng vẫn còn những nhược điểm: nó rất dễ kiểm soát lỗi một file cấu hình trong repo, có một xu hướng là các file cấu hình sẽ nằm rải rác ở những chỗ khác nhau và trong những định dạng khác nhau, khiên nó khó để thấy và kiểm soát tất cả các cấu hình trong 1 chỗ. Hơn nữa những định dạng này có xu hướng riêng biệt với từng ngôn ngữ hay framework.
 
-Ứng dụng theo 12 chuẩn lưu trữ cấu trình trong các biến môi trường ( thường đọc tắt là env vars hoặc env). ENV vars thường dễ thay đổi giữa các triển khai mà không phải thay đổi code, không giống như các file cấu hình, chỉ 1 chút thay đổi của chúng được kiểm soát phụ thuocj bởi code repo; và không giống các file cấu hình thông thường,  các cơ chế cấu hình khác như Java System Properties, chúng là các chuẩn ngôn ngữ và OS-agnostic.
+Ứng dụng theo 12 chuẩn lưu trữ cấu trình trong các biến môi trường ( thường đọc tắt là env vars hoặc env).Các biến ENV thường dễ thay đổi giữa các triển khai mà không phải thay đổi code, không giống như các file cấu hình, chỉ 1 chút thay đổi của chúng được kiểm soát phụ thuocj bởi code repo; và không giống các file cấu hình thông thường,  các cơ chế cấu hình khác như Java System Properties, chúng là các chuẩn ngôn ngữ và OS-agnostic.
 
 Một khía cạnh khác của quản lý cấu hình là gom nhóm. Đôi khi các ứng dụng gom cấu hình thành các tên nhóm ( thường gọi là “các môi trường”) được đặt tên sau các triển khai cụ thể, như là môi trường `development`, `test`, và `production` trong Rails. Phương pháp này không được gọn cho lắm: vì sẽ có nhiều triển khai của ứng dụng được tạo ra, các tên môi trường mới sẽ cần thiết, như là `staging` hoặc `qa`. Vì dự án sẽ càng phát triển hơn, các người phát triển có thể sẽ thêm các môi trường đặc biệt riêng của họ như `joes-staging`, kết quả của việc kết hợp đống cấu hình này sẽ khiến việc quản lý triển khải của ứng dụng trở nên mong manh.
 
-Trong các ứng dụng 12 chuẩn, env vars là các điều khiển chi tiết, mỗi chúng trực giao đầy đủ với các env vars khác. Chúng không vào giờ được nhóm lại với nhau như làà "các môi trường", nhưng thay vào đó chúng quản lý độc lập cho từng triển khai. Đây là một mô hình nâng cao sự mượt mà, ứng dụng sự mở rộng một cách tự nhiên đến nhiều triển khai hơn trong suốt vòng đời của nó.
+Trong các ứng dụng 12 chuẩn, các biến env là các điều khiển chi tiết, mỗi chúng trực giao đầy đủ với các env vars khác. Chúng không vào giờ được nhóm lại với nhau như làà "các môi trường", nhưng thay vào đó chúng quản lý độc lập cho từng triển khai. Đây là một mô hình nâng cao sự mượt mà, ứng dụng sự mở rộng một cách tự nhiên đến nhiều triển khai hơn trong suốt vòng đời của nó.
 
 
